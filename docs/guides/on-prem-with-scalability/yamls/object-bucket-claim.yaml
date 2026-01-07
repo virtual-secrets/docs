@@ -1,0 +1,9 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: kubestash-obc
+spec:
+  generateBucketName: kubestash
+  storageClassName: noobaa.noobaa.io
+  additionalConfig:
+    bucketclass: pv-pool-bucket-class

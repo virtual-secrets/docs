@@ -1,0 +1,17 @@
+apiVersion: noobaa.io/v1alpha1
+kind: BackingStore
+metadata:
+  name: local-pv-backingstore
+  namespace: noobaa
+spec:
+  pvPool:
+    numVolumes: 1
+    resources:
+      requests:
+        storage: 16Gi
+        memory: 4Gi
+        cpu: 2000m
+      limits:
+        memory: 4Gi
+        cpu: 2000m
+  type: pv-pool

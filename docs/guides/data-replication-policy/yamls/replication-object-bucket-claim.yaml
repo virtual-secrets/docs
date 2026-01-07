@@ -1,0 +1,9 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: pv-pool-bucket
+spec:
+  generateBucketName: pv-pool-bucket
+  storageClassName: noobaa.noobaa.io
+  additionalConfig:
+    bucketclass: replication-bc

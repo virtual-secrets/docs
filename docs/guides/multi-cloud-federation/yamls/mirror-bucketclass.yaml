@@ -1,0 +1,11 @@
+apiVersion: noobaa.io/v1alpha1
+kind: BucketClass
+metadata:
+  name: mirror-bucket-class
+spec:
+  placementPolicy:
+    tiers:
+      - backingStores:
+          - aws-s3-backingstore
+          - local-pv-backingstore
+        placement: Mirror

@@ -1,0 +1,9 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: azure-bucket
+spec:
+  generateBucketName: azure-bucket
+  storageClassName: noobaa.noobaa.io
+  additionalConfig:
+    bucketclass: azure-namespace-bucketclass

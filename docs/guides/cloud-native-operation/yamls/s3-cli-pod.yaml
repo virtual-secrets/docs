@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s3-cli-tester
+  namespace: noobaa
+spec:
+  containers:
+    - name: aws-cli
+      image: amazon/aws-cli:latest
+      envFrom:
+        - secretRef:
+            name: my-app-bucket # Name of the Secret created by the OBC
+        - configMapRef:
+            name: my-app-bucket # Name of the ConfigMap created by the OBC
+      command:
+        - "/bin/sh"
+        - "-c"
+        - |
+          echo "Creating a test file..."
+          echo "Hello from NooBaa!" > /tmp/hello.txt
+          echo "Hello from KubeStash!" > /tmp/kubestash.txt
+          
+          echo "Uploading file to bucket: $BUCKET_NAME"
+          aws --endpoint-url http://$BUCKET_HOST s3 cp /tmp/hello.txt s3://$BUCKET_NAME/
+          aws --endpoint-url http://$BUCKET_HOST s3 cp /tmp/kubestash.txt s3://$BUCKET_NAME/
+          
+          echo "Listing objects in bucket: $BUCKET_NAME"
+          aws --endpoint-url http://$BUCKET_HOST s3 ls s3://$BUCKET_NAME/
+  restartPolicy: Never

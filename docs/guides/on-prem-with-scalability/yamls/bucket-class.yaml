@@ -1,0 +1,9 @@
+apiVersion: noobaa.io/v1alpha1
+kind: BucketClass
+metadata:
+  name: pv-pool-bucket-class
+spec:
+  placementPolicy:
+    tiers:
+      - backingStores:
+          - pv-pool-backing-store

@@ -1,0 +1,16 @@
+apiVersion: noobaa.io/v1alpha1
+kind: NooBaa
+metadata:
+  name: noobaa
+  namespace: noobaa
+spec:
+  bucketNotifications:
+    enabled: false
+  dbType: postgres
+  externalPgSSLUnauthorized: true
+  externalPgSecret:
+    name: noobaa-external-pg-db
+    namespace: noobaa
+  image: ghcr.io/kubeobj/noobaa-core:5.20-ac
+#  image: noobaa/noobaa-core:master-20250521
+  manualDefaultBackingStore: true

@@ -1,0 +1,12 @@
+apiVersion: noobaa.io/v1alpha1
+kind: NamespaceStore
+metadata:
+  name: aws-namespace-store
+spec:
+  awsS3:
+    region: us-east-1
+    secret:
+      name: aws-s3-creds
+      namespace: noobaa
+    targetBucket: pv-pool-bucket-replication
+  type: aws-s3

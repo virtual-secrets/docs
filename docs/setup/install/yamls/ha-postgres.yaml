@@ -1,0 +1,35 @@
+apiVersion: kubedb.com/v1
+kind: Postgres
+metadata:
+  name: nbcore-postgres
+  namespace: noobaa
+spec:
+  storage:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 50Gi
+  storageType: Durable
+  version: "15.12"
+  podTemplate:
+    spec:
+      containers:
+        - name: postgres
+          env:
+            - name: POSTGRES_DB
+              value: pgdb
+          resources:
+            requests:
+              memory: "6Gi"
+              cpu: "800m"
+  serviceTemplates:
+    - alias: primary
+      metadata:
+        annotations:
+          passMe: ToService
+      spec:
+        type: LoadBalancer
+        ports:
+          - name: http
+            port: 5432

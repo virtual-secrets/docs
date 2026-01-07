@@ -1,0 +1,24 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucket
+metadata:
+  labels:
+    app: noobaa
+    bucket-provisioner: noobaa.noobaa.io-obc
+    noobaa-domain: noobaa.noobaa.io
+  name: obc-noobaa-federated-bucket
+spec:
+  additionalState:
+    account: obc-account.federated-bucket-08070214-e6ee-4617-80e7-c0a317a4219f.68aeea22@noobaa.io
+    bucketclass: mirror-bucket-class
+    bucketclassgeneration: "1"
+  claimRef: {}
+  endpoint:
+    additionalConfig:
+      bucketclass: mirror-bucket-class
+    bucketHost: s3.noobaa.svc
+    bucketName: federated-bucket-08070214-e6ee-4617-80e7-c0a317a4219f
+    bucketPort: 443
+    region: ""
+    subRegion: ""
+  reclaimPolicy: Retain
+  storageClassName: noobaa.noobaa.io

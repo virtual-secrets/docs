@@ -1,0 +1,16 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  labels:
+    app: noobaa
+    bucket-provisioner: noobaa.noobaa.io-obc
+    noobaa-domain: noobaa.noobaa.io
+  name: federated-bucket
+  namespace: noobaa
+spec:
+  additionalConfig:
+    bucketclass: mirror-bucket-class
+#  bucketName: federated-bucket-08070214-e6ee-4617-80e7-c0a317a4219f
+  generateBucketName: federated-bucket
+#  objectBucketName: obc-noobaa-federated-bucket
+  storageClassName: noobaa.noobaa.io

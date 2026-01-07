@@ -1,0 +1,19 @@
+apiVersion: noobaa.io/v1alpha1
+kind: BucketClass
+metadata:
+  name: replication-bc
+  namespace: noobaa
+spec:
+  placementPolicy:
+    tiers:
+      - backingStores:
+          - pv-pool-backing-store
+  replicationPolicy: |
+    {
+      "rules": [
+        {
+          "rule_id": "rule-1",
+          "destination_bucket": "pv-pool-bucket-replication-180c1b36-bf4e-451e-977f-1cd996f22627"
+        }
+      ]
+    }

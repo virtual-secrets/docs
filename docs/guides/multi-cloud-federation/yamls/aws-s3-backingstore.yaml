@@ -1,0 +1,12 @@
+apiVersion: noobaa.io/v1alpha1
+kind: BackingStore
+metadata:
+  name: aws-s3-backingstore
+  namespace: noobaa
+spec:
+  type: aws-s3
+  awsS3:
+    targetBucket: noobaa
+    secret:
+      name: aws-s3-creds
+      namespace: noobaa

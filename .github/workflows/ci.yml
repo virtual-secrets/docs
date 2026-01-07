@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - "*"
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install link checker
+        run: |
+          curl -fsSL -o liche https://github.com/appscodelabs/liche/releases/download/v0.1.0/liche-linux-amd64
+          chmod +x liche
+          sudo mv liche /usr/local/bin/liche
+
+      - name: Install codespan schema checker
+        run: |
+          curl -fsSL -o codespan-schema-checker https://github.com/kmodules/codespan-schema-checker/releases/latest/download/codespan-schema-checker-linux-amd64
+          chmod +x codespan-schema-checker
+          sudo mv codespan-schema-checker /usr/local/bin/codespan-schema-checker
+
+      - name: Check links
+        run: |
+          liche -r docs -d $(pwd) -c 10 -p -h -l -x '^(.*/docs/{{<.*>}}/.*|.*github.com.*|.*api.slack.com.*|.*askapache.com.*|.*twitter.com.*|.*dev.mysql.com.*|.*linux.die.net.*)$'
+
+      - name: Create Kubernetes cluster
+        id: kind
+        uses: engineerd/setup-kind@v0.5.0
+        with:
+          version: v0.29.0
+
+      - name: Prepare cluster for testing
+        id: local-path
+        run: |
+          echo "waiting for nodes to be ready ..."
+          kubectl wait --for=condition=Ready nodes --all --timeout=5m
+          kubectl get nodes
+          echo
+          echo "install helm 3"
+          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+      - name: Check codespan schema
+        run: |
+          git clone https://github.com/kmodules/resource-metadata.git
+          mv resource-metadata/hub /tmp
+          rm -rf resource-metadata
+          codespan-schema-checker --content=./docs
